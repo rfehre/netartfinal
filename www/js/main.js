@@ -6,6 +6,7 @@ const socket = io()
 socket.emit('apiReq', 'https://api.propublica.org/congress/v1/115/senate/members.json')
 socket.on('apiRes', function(json) {
     const congressMem = json.results[0].congress;
+    console.log(json);
     console.log(congressMem);
 
     var camera, scene, renderer, mesh, material, controls;
