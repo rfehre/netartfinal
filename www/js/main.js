@@ -1,37 +1,89 @@
-// this is an array of cat names which match the names of the images inside the
-// images directory of this project, we'll use it inside the newCatImg function
-const catNames = [
-    'grumpy-cat',
-    'lil-bub',
-    'surprise-cat',
-    'unicorn-cat'
-]
 
-// this is a reference to the cat-pic img in our index page
-const mainCat = document.querySelector('#cat-pic')
 
-function newCatImg(){
-    // this line creates a new image tag, ex: <img>
-    let cat = document.createElement('img')
-    // this creates a random number between 0 and 4, which is the length of the
-    // catNames array, we floor the random number (round down) to make sure that
-    // it's an integer (whole number) so we can use it as an array index value
-    let ran = Math.floor( Math.random()*catNames.length )
-    // this changes it's src to a random cat, ex: <img src="images/lil-bub.png">
-    cat.src = 'images/'+catNames[ran]+'.png'
-    // the setAttribute method can be used to set the value of any HTML element
-    // attribute, here we use it to set the image's alt value to match the cat
-    // name, for ex: <img src="images/lil-bub.png" alt="lil-bub">
-    cat.setAttribute( 'alt', catNames[ran] )
-    // now we'll change it's style (css) so that it is absolutely positioned
-    // somewhere random on our page, with a random size
-    cat.style.position = 'absolute'
-    cat.style.left = Math.random()*innerWidth + 'px'
-    cat.style.top = Math.random()*innerHeight + 'px'
-    cat.style.width = Math.random()*200 + 'px'
-    // lastly we'll add this new cat image element to our body element
-    document.body.appendChild( cat )
-}
 
-// each time we click the mainCat img, we'll call the newCatImg() function
-mainCat.addEventListener( 'click', newCatImg )
+
+const socket = io()
+socket.emit('apiReq', 'https://api.propublica.org/congress/v1/115/senate/members.json')
+socket.on('apiRes', function(json) {
+    const congressMem = json.results[0].congress;
+    console.log(congressMem);
+
+    var camera, scene, renderer, mesh, material, controls;
+    init();
+    animate();
+    addCubes();
+    render();
+
+
+    function addCubes() {
+    		var xDistance = 10;
+        var zDistance = 10;
+        var geometry = new THREE.SphereGeometry(2,50,50);
+        var material = new THREE.MeshBasicMaterial({color:0x0000ff});
+
+        //initial offset so does not start in middle.
+        var xOffset = -50;
+        var zOffset = -50;
+
+        for(var i = 0; i < Math.sqrt(congressMem); i++){
+            for(var j = 0; j < Math.sqrt(congressMem); j++){
+            		var mesh  = new THREE.Mesh(geometry, material);
+            		mesh.position.x = (xDistance * i) + xOffset;
+                mesh.position.z = (zDistance * j) + zOffset;
+            		scene.add(mesh);
+            }
+        };
+    }
+
+    function init() {
+        // Renderer.
+        renderer = new THREE.WebGLRenderer();
+        //renderer.setPixelRatio(window.devicePixelRatio);
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        // Add renderer to page
+        document.body.appendChild(renderer.domElement);
+
+        // Create camera.
+        camera = new THREE.PerspectiveCamera(1000, window.innerWidth / window.innerHeight, 1, 5000);
+        camera.position.y = -200;
+
+
+        // Add controls
+        controls = new THREE.TrackballControls( camera );
+        controls.addEventListener( 'change', render );
+
+        // Create scene.
+        scene = new THREE.Scene();
+        scene.background = new THREE.Color( 0xffffff );
+
+        // Create ambient light and add to scene.
+        var light = new THREE.AmbientLight(0x404040); // soft white light
+        scene.add(light);
+
+        // Create directional light and add to scene.
+        var directionalLight = new THREE.DirectionalLight(0xffffff);
+        directionalLight.position.set(1, 1, 1).normalize();
+        scene.add(directionalLight);
+
+        // Add listener for window resize.
+        window.addEventListener('resize', onWindowResize, false);
+    }
+
+    function animate() {
+        requestAnimationFrame(animate);
+        controls.update();
+
+    }
+
+    function render() {
+    	renderer.render(scene, camera);
+    }
+
+    function onWindowResize() {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        controls.handleResize();
+    }
+
+})
