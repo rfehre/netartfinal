@@ -171,9 +171,9 @@ function clearScene( scene ) {
 
         // Create camera. (perspective)
         camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 10000);
-        camera.position.z = 1200;
+        camera.position.z = 500;
         camera.position.x = -500;
-        camera.position.y = 200;
+        camera.position.y = 50;
 
         // Create scene.
         scene = new THREE.Scene();
