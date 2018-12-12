@@ -3,18 +3,70 @@
     <head>
         <meta charset="utf-8">
         <title> Example Page </title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
         <link rel="stylesheet" href="css/styles.css">
     </head>
     <body>
+        <div class="container-full">
+        <ul class="nav" style="background-color:black;">
+            <h1 class="navtitle">what did the senate do on</h1>
+        </ul>
 
-        <section>
+            <select class="custom-select" id="billselect">
+                <option selected value="1">January 4, 2017</option>
+                <option value="55">February 2, 2017</option>
+                <option value="82">March 7, 2017</option>
+                <option value="111">April 7, 2017</option>
+                <option value="121">May 4, 2017</option>
+                <option value="145">June 15, 2017</option>
+                <option value="159">July 12, 2017</option>
+            </select>
+
+        </div>
+
+
+            <!-- <div class="dropdown">
+                <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" value="17">
+                    2017-01-11
+                </a>
+
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                        <a class="dropdown-item" value="18" href="#">18</a>
+                        <a class="dropdown-item" href="#">Date</a>
+                        <a class="dropdown-item" href="#">Date</a>
+                    </div>
+        </div> -->
 
 
 
-        </section>
+        <div class="container-full">
+            <div class="row">
+                <div class="col-md-6">
+            <section>
+
+                <h1 id="billtitle"></h1>
+                <p id="billdesc"></p>
+
+                <h4 id="billdate"></h4>
+                <h1 id="billresult"></h1>
+
+                            </section>
+            </div>
+            <div class="col-md-6">
+                <h1 id="senatorinfo"></h1>
+                <h3 id="senatorvote"></h3>
+            </div>
+        </div>
+
+
+
+
+        </div>
 
         <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r79/three.min.js"></script>
-                <script src="https://cdn.rawgit.com/mrdoob/three.js/dev/examples/js/controls/TrackballControls.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/js/bootstrap.bundle.min.js"></script>
         <script src="/socket.io/socket.io.js"></script>
         <script src="js/main.js"></script>
 
