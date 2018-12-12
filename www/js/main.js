@@ -1,14 +1,24 @@
 const billselect = 1;
 
 $("select").change(function(){
-
+    clearScene(scene);
     const billselect = document.getElementById("billselect").value;
     console.log(billselect);
-    socket.emit('apiReq', 'https://api.propublica.org/congress/v1/115/senate/sessions/1/votes/' + billselect + '.json')
+    socket.emit('apiReq', 'https://api.propublica.org/congress/v1/115/senate/sessions/1/votes/' + billselect + '.json');
+
 
 });
 
-
+function clearScene( scene ) {
+  for (let i = scene.children.length - 1; i >= 0; i--) {
+    const object = scene.children[i];
+    if (object.type === 'Mesh') {
+      object.geometry.dispose();
+      object.material.dispose();
+      scene.remove(object);
+    }
+  }
+}
 
 
     // DOM
@@ -114,7 +124,7 @@ $("select").change(function(){
             } else if (senators[i].vote_position == "No" && senators[i].party == "R") {
                 var meshRep = new THREE.Mesh(geometry, materialRep);
                 meshRep.position.x = (xDistance * i);
-                meshDem.position.y = -20;
+                meshRep.position.y = -20;
                 meshRep.userData = senators[i]
                 scene.add(meshRep);
             } else if (senators[i].vote_position == "Yes" && senators[i].party == "D") {
